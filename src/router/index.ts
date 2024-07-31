@@ -20,13 +20,13 @@ const router = createRouter({
         {
             path: '/cocktail',
             name: 'cocktail',
-            component: CockTailView,
-            children: [
-                {
-                    path: ':slug',
-                    component: CockTail
-                }
-            ]
+            component: CockTailView
+            // children: [
+            //     {
+            //         path: ':slug',
+            //         component: CockTail
+            //     }
+            // ]
         }
         // {
         //   path: '/about',
