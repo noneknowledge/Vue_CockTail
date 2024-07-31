@@ -2,16 +2,26 @@
 import { watch, ref } from 'vue'
 import { useRoute } from 'vue-router'
 const route = useRoute()
-// www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita
+// www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
+const data = ref(null)
+const url = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i='
 
-watch(
-    () => route.params.slug,
-    (newId, oldId) => {
-        console.log(newId)
-        console.log('Change To')
-        console.log(oldId)
+const fetchData = async (id) => {
+    try {
+        console.log('fetch')
+        const res = await fetch(`${url}${id}`)
+        const resData = await res.json()
+        const { drinks } = resData
+        console.log(drinks)
+        data.value = drinks
+        console.log('data')
+        console.log(data.value)
+    } catch (e) {
+        console.warn('Error!' + e.message)
     }
-)
+}
+await fetchData(11007)
+
 console.log(route.params.slug)
 </script>
 <template>
