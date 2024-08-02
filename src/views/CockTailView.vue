@@ -22,6 +22,7 @@ const fetchData = async (keyword: string) => {
 }
 
 const search = async () => {
+    activeElement.value = null
     await fetchData(keyWord.value)
 }
 
@@ -43,8 +44,10 @@ const selectDrink = (drink, event) => {
 }
 
 const changePage = (number) => {
-    console.log('page number: ' + number)
+    if (page.value === number - 1) return
+
     page.value = number - 1
+    activeElement.value = null
 }
 watch(
     () => data.value,
@@ -66,7 +69,9 @@ watch(
         if (oldEl) {
             oldEl.classList.toggle('active')
         }
-        currEl.classList.toggle('active')
+        if (currEl) {
+            currEl.classList.toggle('active')
+        }
     }
 )
 </script>
@@ -78,12 +83,12 @@ watch(
         </div>
         <div class="col d-flex flex-column rounded" style="background-color: #6482ad">
             <form class="d-flex p-3 gap-3" @submit.prevent="onSubmit">
-                <input type="text" v-model="page" class="form-control input-lg" />
                 <input type="text" v-model="keyWord" class="form-control input-lg" />
                 <button @click="search()" class="btn btn-lg btn-success">Find</button>
             </form>
             <section class="text-center">
                 <button
+                    :key="number"
                     v-for="number in totalPage"
                     @click="changePage(number)"
                     class="btn btn-secondary mx-1"
