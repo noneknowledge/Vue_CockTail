@@ -3,9 +3,9 @@ import { ref, watch } from 'vue'
 import CockTail from '../components/CockTail.vue'
 
 const keyWord = ref('')
-const data = ref(null)
-const selectedDrink = ref(null)
-const activeElement = ref(null)
+const data = ref<any[]>()
+const selectedDrink = ref<any>()
+const activeElement = ref<any>()
 const page = ref(0)
 const totalPage = ref(0)
 
@@ -16,17 +16,17 @@ const fetchData = async (keyword: string) => {
         const resData = await res.json()
         const { drinks } = resData
         data.value = drinks
-    } catch (e) {
+    } catch (e: any) {
         console.warn('Error!' + e.message)
     }
 }
 
 const search = async () => {
-    activeElement.value = null
+    activeElement.value = undefined
     await fetchData(keyWord.value)
 }
 
-const selectDrink = (drink, event) => {
+const selectDrink = (drink: any, event: any) => {
     let el = event.target
     selectedDrink.value = drink
 
@@ -43,11 +43,11 @@ const selectDrink = (drink, event) => {
     }
 }
 
-const changePage = (number) => {
+const changePage = (number: number) => {
     if (page.value === number - 1) return
 
     page.value = number - 1
-    activeElement.value = null
+    activeElement.value = undefined
 }
 watch(
     () => data.value,
@@ -82,9 +82,9 @@ watch(
             <CockTail :drink="selectedDrink"></CockTail>
         </div>
         <div class="col d-flex flex-column rounded" style="background-color: #6482ad">
-            <form class="d-flex p-3 gap-3" @submit.prevent="onSubmit">
+            <form class="d-flex p-3 gap-3" @submit.prevent="search()">
                 <input type="text" v-model="keyWord" class="form-control input-lg" />
-                <button @click="search()" class="btn btn-lg btn-success">Find</button>
+                <button class="btn btn-lg btn-success">Find</button>
             </form>
             <section class="text-center">
                 <button

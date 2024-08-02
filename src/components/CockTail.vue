@@ -7,16 +7,16 @@ const props = defineProps<{
 }>()
 
 const language = ref('English')
-const ingredients = ref([])
-const measures = ref([])
+const ingredients = ref<any[]>([])
+const measures = ref<any[]>([])
 
 watchEffect(() => {
     ingredients.value = []
     measures.value = []
     Object.keys(props.drink)
         .filter((key) => key.includes('strIngredient') || key.includes('strMeasure'))
-        .forEach(function (key, index) {
-            let value = props.drink[key]
+        .forEach(function (key) {
+            let value: any = props.drink[key]
             if (value !== null) {
                 if (key.includes('strIngredient')) {
                     ingredients.value.push(value)
