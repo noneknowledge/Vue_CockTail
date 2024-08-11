@@ -40,7 +40,7 @@ const isDropdown = ref(false)
                     src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1722211200&semt=ais_hybrid"
                 />
 
-                <dropdown
+                <drop-down
                     v-show="isDropdown"
                     class="text-black bg-white dropdown position-absolute rounded p-3"
                 >
@@ -63,7 +63,7 @@ const isDropdown = ref(false)
                     >
                         <LogOutIcon /> Log Out
                     </p>
-                </dropdown>
+                </drop-down>
             </div>
         </div>
     </div>

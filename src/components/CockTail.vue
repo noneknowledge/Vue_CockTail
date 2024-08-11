@@ -26,6 +26,13 @@ watchEffect(() => {
             }
         })
 })
+const showInstruction = (instruction: string) => {
+    if (instruction) {
+        return instruction
+    } else {
+        return "This drink doesn't have instruction for this language yet!"
+    }
+}
 </script>
 <template>
     <h2 class="text-center font-weight-light my-2">
@@ -44,35 +51,41 @@ watchEffect(() => {
             <span v-if="drink.strAlcoholic === 'Alcoholic'">&#129326;</span>
             <span v-else>&#128518;</span> | Glass: {{ drink.strGlass }}
         </p>
-        <article>
-            Instruction:
-            <div>Picked: {{ language }}</div>
-
+        <div class="py-2">
+            Ingredient:
+            <ul>
+                <li v-for="(ingredient, index) in ingredients" :key="index">
+                    {{ ingredient }}
+                    <span v-if="measures[index]"> - {{ measures[index] }} </span>
+                </li>
+            </ul>
+        </div>
+        - <i>Choose your language: (Instruction only) </i>
+        <section class="py-3 d-flex justify-content-between">
             <input type="radio" id="English" value="English" v-model="language" />
             <label for="English">English</label>
             <input type="radio" id="Spanish" value="Spanish" v-model="language" />
             <label for="Spanish">Spanish</label>
             <input type="radio" id="Italian" value="Italian" v-model="language" />
             <label for="Italian">Italian</label>
+            <input type="radio" id="German" value="German" v-model="language" />
+            <label for="German">German</label>
+            <input type="radio" id="France" value="France" v-model="language" />
+            <label for="France">France</label>
+        </section>
+        <article class="py-3">
+            - <i>Instruction:</i>
+            <div v-show="language === 'English'">{{ showInstruction(drink.strInstructions) }}</div>
+            <div v-show="language === 'Spanish'">
+                {{ showInstruction(drink.strInstructionsES) }}
+            </div>
+            <div v-show="language === 'Italian'">
+                {{ showInstruction(drink.strInstructionsIT) }}
+            </div>
+            <div v-show="language === 'German'">{{ showInstruction(drink.strInstructionsDE) }}</div>
+            <div v-show="language === 'France'">{{ showInstruction(drink.strInstructionsFR) }}</div>
         </article>
-        <div class="row gap-5 p-3">
-            <div class="col-5 py-2">
-                Ingredient:
-                <ul>
-                    <li v-for="(ingredient, index) in ingredients" :key="index">
-                        {{ ingredient }}
-                    </li>
-                </ul>
-            </div>
-            <div class="col-5 py-2" style="border-left: 1px solid">
-                Measure:
-                <ul>
-                    <li v-for="(measure, index) in measures" :key="index">{{ measure }}</li>
-                </ul>
-            </div>
-        </div>
     </div>
-    <p>{{ drink }}</p>
 </template>
 
 <style scoped>
